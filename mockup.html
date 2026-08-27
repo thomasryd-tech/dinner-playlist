@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dinner Playlist — Mockup</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    body { margin: 0; background: #0d0720; display: flex; flex-direction: column; align-items: center; padding: 24px 16px; font-family: system-ui, sans-serif; }
+    h1 { color: #fff; font-size: 18px; font-weight: 500; margin: 0 0 4px; }
+    p.desc { color: #a98fd4; font-size: 13px; margin: 0 0 20px; text-align: center; }
+    .tab-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center; }
+
+    .dp-phone {
+      width: 320px; min-height: 620px; background: #1a0f2e;
+      border-radius: 32px; border: 2px solid #3a2560;
+      overflow: hidden; position: relative;
+    }
+    .dp-screen { display: none; flex-direction: column; min-height: 620px; }
+    .dp-screen.active { display: flex; }
+    .dp-topbar { background: #1a0f2e; padding: 14px 20px 10px; display: flex; align-items: center; justify-content: space-between; }
+    .dp-title { color: #ffffff; font-size: 22px; font-weight: 500; }
+    .dp-subtitle { color: #c4a8e8; font-size: 13px; }
+    .dp-content { padding: 0 16px 16px; flex: 1; overflow-y: auto; }
+    .dp-pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    button.dp-pill {
+      padding: 7px 14px; border-radius: 20px; border: 1.5px solid #7a5faa;
+      color: #ffffff !important; font-size: 13px; cursor: pointer;
+      background: #2d1f4a !important; appearance: none; line-height: 1.2;
+    }
+    button.dp-pill.sel { background: #6c3ebb !important; border-color: #9b6fe8; }
+    .dp-section-label { color: #c4a8e8; font-size: 12px; font-weight: 500; margin: 0 0 8px; letter-spacing: 0.04em; }
+    .dp-stepper { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .dp-stepper-btn {
+      width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #7a5faa;
+      background: #2d1f4a; color: #ffffff; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dp-stepper-val { color: #fff; font-size: 18px; font-weight: 500; min-width: 24px; text-align: center; }
+    .dp-cta {
+      margin: 8px 16px 16px; background: #f5a623; color: #2a1500; border: none;
+      border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 500;
+      cursor: pointer; width: calc(100% - 32px);
+    }
+    .dp-meal-card {
+      background: #2a1a48; border-radius: 14px; margin-bottom: 10px;
+      overflow: hidden; display: flex; align-items: center; position: relative; cursor: pointer;
+    }
+    .dp-meal-img { width: 72px; height: 72px; flex-shrink: 0; background: #3a2560; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+    .dp-meal-info { padding: 10px 12px; flex: 1; }
+    .dp-meal-name { color: #ffffff; font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .dp-meal-meta { color: #c4a8e8; font-size: 12px; }
+    .dp-pin-btn {
+      width: 36px; height: 36px; border-radius: 50%; background: #f5a623; border: none;
+      cursor: pointer; margin-right: 10px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 16px; color: #2a1500;
+    }
+    .dp-pin-btn.pinned { background: #6c3ebb; color: #fff; }
+    .dp-pinned-badge { position: absolute; top: 6px; left: 6px; background: #6c3ebb; color: #e0d0ff; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+    .dp-shuffle-row { display: flex; gap: 10px; margin: 4px 16px 12px; }
+    .dp-shuffle-btn {
+      flex: 1; background: #2d1f4a; border: 1.5px solid #7a5faa; border-radius: 12px;
+      color: #ffffff !important; font-size: 13px; padding: 10px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .dp-back-btn { background: transparent; border: none; color: #c4a8e8; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 0; }
+    .dp-detail-img { width: 100%; height: 160px; background: #3a2560; display: flex; align-items: center; justify-content: center; font-size: 60px; }
+    .dp-tag { display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 11px; background: #3a2560; color: #e8deff; margin-right: 6px; margin-bottom: 6px; }
+    .dp-add-btn { background: #f5a623; color: #2a1500; border: none; border-radius: 12px; padding: 12px; font-size: 15px; font-weight: 500; cursor: pointer; width: 100%; margin-top: 8px; }
+    .dp-week-day { background: #2a1a48; border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .dp-day-label { color: #c4a8e8; font-size: 12px; min-width: 60px; }
+    .dp-day-meal { color: #ffffff; font-size: 14px; flex: 1; }
+    .dp-hint { background: #2a1a48; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; color: #c4a8e8; font-size: 13px; line-height: 1.5; }
+    .dp-hint strong { color: #ffffff; }
+    .dp-nav { background: #130a22; border-top: 1px solid #2a1a48; display: flex; padding: 8px 0 4px; }
+    .dp-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; color: #6a5490; font-size: 10px; }
+    .dp-nav-item.active { color: #f5a623; }
+    .dp-nav-item i { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🎵 Dinner Playlist</h1>
+  <p class="desc">Weekly dinner suggestions — like Spotify, but for food.</p>
+
+  <div class="tab-row">
+    <button class="dp-pill sel" onclick="showScreen('setup')" id="tab-setup">Setup</button>
+    <button class="dp-pill" onclick="showScreen('suggestions')" id="tab-suggestions">Suggestions</button>
+    <button class="dp-pill" onclick="showScreen('detail')" id="tab-detail">Meal detail</button>
+    <button class="dp-pill" onclick="showScreen('week')" id="tab-week">Weekly plan</button>
+  </div>
+
+  <div class="dp-phone">
+
+    <div id="screen-setup" class="dp-screen active">
+      <div class="dp-topbar">
+        <div><div class="dp-title">Dinner playlist</div><div class="dp-subtitle">Build your weekly menu</div></div>
+        <i class="ti ti-music" style="font-size:24px;color:#9b6fe8;"></i>
+      </div>
+      <div class="dp-content">
+        <div class="dp-hint"><strong>Just like a music playlist</strong> — we suggest dinners based on your taste. Pin the ones you love, shuffle the rest.</div>
+        <p class="dp-section-label">How many days?</p>
+        <div class="dp-stepper">
+          <button class="dp-stepper-btn" onclick="adjustDays(-1)">−</button>
+          <span class="dp-stepper-val" id="day-count">5</span>
+          <button class="dp-stepper-btn" onclick="adjustDays(1)">+</button>
+          <span style="color:#c4a8e8;font-size:13px;">days</span>
+        </div>
+        <p class="dp-section-label">Portions per dinner?</p>
+        <div class="dp-stepper">
+          <button class="dp-stepper-btn" onclick="adjustPortions(-1)">−</button>
+          <span class="dp-stepper-val" id="portion-count">2</span>
+          <button class="dp-stepper-btn" onclick="adjustPortions(1)">+</button>
+          <span style="color:#c4a8e8;font-size:13px;">people</span>
+        </div>
+        <p class="dp-section-label">Mood / category <span style="color:#7a5faa;font-size:11px;">(select all that apply)</span></p>
+        <div class="dp-pill-row">
+          <button class="dp-pill sel" onclick="togglePill(this)">Quick & easy</button>
+          <button class="dp-pill" onclick="togglePill(this)">Comfort food</button>
+          <button class="dp-pill" onclick="togglePill(this)">Healthy</button>
+          <button class="dp-pill" onclick="togglePill(this)">Vegetarian</button>
+          <button class="dp-pill" onclick="togglePill(this)">Family fav</button>
+        </div>
+        <p class="dp-section-label">Preferences <span style="color:#7a5faa;font-size:11px;">(select all that apply)</span></p>
+        <div class="dp-pill-row">
+          <button class="dp-pill" onclick="togglePill(this)">No shellfish</button>
+          <button class="dp-pill" onclick="togglePill(this)">No pork</button>
+          <button class="dp-pill sel" onclick="togglePill(this)">Include my saved</button>
+        </div>
+      </div>
+      <button class="dp-cta" onclick="showScreen('suggestions')">Get suggestions <i class="ti ti-arrow-right"></i></button>
+      <div class="dp-nav">
+        <div class="dp-nav-item"><i class="ti ti-home"></i>Home</div>
+        <div class="dp-nav-item"><i class="ti ti-sparkles"></i>Ditt Oda</div>
+        <div class="dp-nav-item"><i class="ti ti-category"></i>Kategorier</div>
+        <div class="dp-nav-item active"><i class="ti ti-tools-kitchen-2"></i>Middag</div>
+        <div class="dp-nav-item"><i class="ti ti-shopping-cart"></i>Handlekurv</div>
+      </div>
+    </div>
+
+    <div id="screen-suggestions" class="dp-screen">
+      <div class="dp-topbar">
+        <div><div class="dp-title">Your playlist</div><div class="dp-subtitle" id="sugg-subtitle">5 nights · 2 people</div></div>
+        <i class="ti ti-music" style="font-size:24px;color:#9b6fe8;"></i>
+      </div>
+      <div class="dp-content" id="meal-list"></div>
+      <div class="dp-shuffle-row">
+        <button class="dp-shuffle-btn" onclick="shuffleUnpinned()"><i class="ti ti-arrows-shuffle"></i> Shuffle unpinned</button>
+        <button class="dp-shuffle-btn" onclick="showScreen('week')"><i class="ti ti-calendar-check"></i> Save week</button>
+      </div>
+      <div class="dp-nav">
+        <div class="dp-nav-item"><i class="ti ti-home"></i>Home</div>
+        <div class="dp-nav-item"><i class="ti ti-sparkles"></i>Ditt Oda</div>
+        <div class="dp-nav-item"><i class="ti ti-category"></i>Kategorier</div>
+        <div class="dp-nav-item active"><i class="ti ti-tools-kitchen-2"></i>Middag</div>
+        <div class="dp-nav-item"><i class="ti ti-shopping-cart"></i>Handlekurv</div>
+      </div>
+    </div>
+
+    <div id="screen-detail" class="dp-screen">
+      <div class="dp-detail-img" id="detail-emoji">🍝</div>
+      <div class="dp-topbar" style="padding:12px 16px;">
+        <button class="dp-back-btn" onclick="showScreen('suggestions')"><i class="ti ti-arrow-left"></i> Back to playlist</button>
+        <button class="dp-pin-btn" id="detail-pin-btn" style="margin-right:0;"><i class="ti ti-lock" id="detail-pin-icon"></i></button>
+      </div>
+      <div class="dp-content">
+        <h2 style="color:#ffffff;font-size:20px;font-weight:500;margin:0 0 4px;" id="detail-name"></h2>
+        <div style="color:#c4a8e8;font-size:13px;margin-bottom:12px;" id="detail-meta"></div>
+        <div id="detail-tags"></div>
+        <p style="color:#e8deff;font-size:14px;line-height:1.6;margin-bottom:12px;" id="detail-desc"></p>
+        <div style="background:#2a1a48;border-radius:12px;padding:10px 14px;margin-bottom:10px;">
+          <p style="color:#a98fd4;font-size:12px;margin:0 0 6px;">Why we suggested this</p>
+          <p style="color:#e8deff;font-size:13px;margin:0;" id="detail-why"></p>
+        </div>
+        <button class="dp-add-btn"><i class="ti ti-shopping-cart-plus"></i> Add ingredients to cart</button>
+      </div>
+    </div>
+
+    <div id="screen-week" class="dp-screen">
+      <div class="dp-topbar">
+        <div><div class="dp-title">This week</div><div class="dp-subtitle">Your dinner plan</div></div>
+        <button class="dp-pin-btn" style="background:#6c3ebb;margin-right:0;"><i class="ti ti-share"></i></button>
+      </div>
+      <div class="dp-content" id="week-list"></div>
+      <div style="padding:0 16px;">
+        <button class="dp-cta" style="width:100%;margin:0 0 12px;"><i class="ti ti-shopping-cart-plus"></i> Add all to cart</button>
+        <button class="dp-shuffle-btn" style="width:100%;margin-bottom:12px;" onclick="showScreen('setup')"><i class="ti ti-refresh"></i> Start over</button>
+      </div>
+      <div class="dp-nav">
+        <div class="dp-nav-item"><i class="ti ti-home"></i>Home</div>
+        <div class="dp-nav-item"><i class="ti ti-sparkles"></i>Ditt Oda</div>
+        <div class="dp-nav-item"><i class="ti ti-category"></i>Kategorier</div>
+        <div class="dp-nav-item active"><i class="ti ti-tools-kitchen-2"></i>Middag</div>
+        <div class="dp-nav-item"><i class="ti ti-shopping-cart"></i>Handlekurv</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const MEALS = [
+      {name:'Kyllingwok med nudler', emoji:'🥢', time:'20 min', items:'5 ingredients', tags:['Quick','Asian'], desc:'A quick weeknight wok packed with tender chicken, crispy vegetables, and silky noodles.', why:'Based on your saved recipes and "Quick & easy" preference.', saved:true},
+      {name:'Kjøttboller og tomatsaus', emoji:'🍝', time:'30 min', items:'4 ingredients', tags:['Comfort','Italian'], desc:'Classic meatballs simmered in a rich tomato sauce — a guaranteed crowd-pleaser.', why:"A family favourite you've cooked 4 times before.", saved:true},
+      {name:'Lasagne', emoji:'🫕', time:'60 min', items:'10 ingredients', tags:['Comfort','Weekend'], desc:'Layers of pasta, rich meat sauce, and creamy béchamel. Great for batch cooking.', why:'Matches your "Comfort food" mood selection.', saved:false},
+      {name:'Rask pasta med rød saus', emoji:'🍜', time:'20 min', items:'4 ingredients', tags:['Quick','Vegetarian'], desc:'A speedy pantry pasta with a vibrant, garlicky tomato sauce.', why:'You liked similar pasta dishes in the past.', saved:false},
+      {name:'Marry me chicken', emoji:'🍗', time:'30 min', items:'6 ingredients', tags:['Creamy','Popular'], desc:'Pan-seared chicken in a sun-dried tomato cream sauce that lives up to its name.', why:'Trending dish similar to your saved recipes.', saved:false},
+    ];
+    const DAY_NAMES = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    let days = 5, portions = 2, pinned = new Set([0,1]), mealOrder = [0,1,2,3,4], shuffleCount = 0;
+
+    function adjustDays(d) { days = Math.max(1,Math.min(7,days+d)); document.getElementById('day-count').textContent = days; }
+    function adjustPortions(d) { portions = Math.max(1,Math.min(8,portions+d)); document.getElementById('portion-count').textContent = portions; }
+    function togglePill(el) { el.classList.toggle('sel'); }
+
+    function renderMeals() {
+      document.getElementById('sugg-subtitle').textContent = days + ' nights · ' + portions + ' people';
+      const list = document.getElementById('meal-list'); list.innerHTML = '';
+      mealOrder.slice(0,days).forEach((idx,i) => {
+        const m = MEALS[idx%MEALS.length], isPinned = pinned.has(i);
+        const div = document.createElement('div'); div.className = 'dp-meal-card';
+        div.innerHTML = (isPinned?'<div class="dp-pinned-badge"><i class="ti ti-lock"></i> Pinned</div>':'') +
+          '<div class="dp-meal-img">'+m.emoji+'</div>' +
+          '<div class="dp-meal-info"><div class="dp-meal-name">'+m.name+'</div><div class="dp-meal-meta">'+m.time+' · '+m.items+(m.saved?' · <span style="color:#f5a623">Saved</span>':'')+'</div></div>' +
+          '<button class="dp-pin-btn'+(isPinned?' pinned':'')+'"><i class="ti ti-'+(isPinned?'lock':'lock-open')+'"></i></button>';
+        div.querySelector('.dp-pin-btn').addEventListener('click',e=>{ e.stopPropagation(); pinned.has(i)?pinned.delete(i):pinned.add(i); renderMeals(); });
+        div.addEventListener('click',()=>showDetail(idx,i));
+        list.appendChild(div);
+      });
+    }
+
+    function shuffleUnpinned() {
+      shuffleCount++;
+      const pos=[]; for(let i=0;i<days;i++) if(!pinned.has(i)) pos.push(i);
+      const pool=pos.map(i=>mealOrder[i]);
+      for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+      pos.forEach((p,k)=>mealOrder[p]=pool[k]); renderMeals();
+      if(shuffleCount>=3){
+        setTimeout(()=>{
+          const h=document.createElement('div'); h.className='dp-hint'; h.style.marginTop='8px';
+          h.innerHTML='<strong>Not finding what you want?</strong> Tell us more — any allergies, favourite cuisines, or max cook time?';
+          document.getElementById('meal-list').appendChild(h);
+        },200);
+      }
+    }
+
+    function showDetail(mealIdx,position) {
+      const m=MEALS[mealIdx%MEALS.length];
+      document.getElementById('detail-emoji').textContent=m.emoji;
+      document.getElementById('detail-name').textContent=m.name;
+      document.getElementById('detail-meta').textContent=m.time+' · '+m.items;
+      document.getElementById('detail-desc').textContent=m.desc;
+      document.getElementById('detail-why').textContent=m.why;
+      document.getElementById('detail-tags').innerHTML=m.tags.map(t=>'<span class="dp-tag">'+t+'</span>').join('')+(m.saved?'<span class="dp-tag" style="background:#3a2560;color:#f5a623;">Your saved recipe</span>':'');
+      showScreen('detail');
+    }
+
+    function renderWeek() {
+      const list=document.getElementById('week-list'); list.innerHTML='';
+      mealOrder.slice(0,days).forEach((idx,i)=>{
+        const m=MEALS[idx%MEALS.length];
+        const div=document.createElement('div'); div.className='dp-week-day';
+        div.innerHTML='<div style="font-size:20px;">'+m.emoji+'</div><div style="flex:1;"><div class="dp-day-label">'+(DAY_NAMES[i]||'Day '+(i+1))+'</div><div class="dp-day-meal">'+m.name+'</div></div>'+(pinned.has(i)?'<i class="ti ti-lock" style="color:#9b6fe8;font-size:14px;"></i>':'');
+        list.appendChild(div);
+      });
+    }
+
+    function showScreen(name) {
+      document.querySelectorAll('.dp-screen').forEach(s=>s.classList.remove('active'));
+      document.getElementById('screen-'+name).classList.add('active');
+      document.querySelectorAll('button.dp-pill[id^="tab-"]').forEach(b=>b.classList.remove('sel'));
+      const tab=document.getElementById('tab-'+name); if(tab) tab.classList.add('sel');
+      if(name==='suggestions') renderMeals();
+      if(name==='week') renderWeek();
+    }
+    renderMeals();
+  </script>
+</body>
+</html>
